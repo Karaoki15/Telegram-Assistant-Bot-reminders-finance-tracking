@@ -32,8 +32,6 @@ def init_db():
     cursor.execute('CREATE TABLE IF NOT EXISTS incomes (id INTEGER PRIMARY KEY, user_id INTEGER, amount REAL, category TEXT, created_at DATETIME)')
     conn.commit()
 
-# ... (остальные функции БД без изменений, кроме одной новой) ...
-
 
 def get_incomes_by_category_for_period(user_id, start_date, end_date):
     cursor.execute("SELECT category, SUM(amount) FROM incomes WHERE user_id = ? AND created_at BETWEEN ? AND ? GROUP BY category ORDER BY SUM(amount) DESC", (user_id, start_date, end_date))
@@ -590,4 +588,5 @@ async def main():
 if __name__ == '__main__':
     try: asyncio.run(main())
     except (KeyboardInterrupt, SystemExit): logging.info("Bot stopped.")
+
     finally: conn.close()
